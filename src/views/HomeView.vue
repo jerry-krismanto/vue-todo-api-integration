@@ -14,7 +14,6 @@ const getToken = (token: any) => {
   <main>
     <LoginPage @passTokenToParent="getToken" />
     <br />
-    <h2>here is your token {{ tokenFromLogin }}</h2>
     <ToDoList :token="tokenFromLogin" />
   </main>
 </template>

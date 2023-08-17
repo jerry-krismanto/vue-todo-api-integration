@@ -61,6 +61,9 @@
             value="Login"
             class="p-1 border border-black rounded-md"
           />
+          <button @click="handleLogout" class="p-1 border-2 border-red-500 text-red-500 font-bold">
+            Logout
+          </button>
         </form>
       </div>
     </div>
@@ -126,6 +129,7 @@ const handleLogin = async () => {
       const data = await res.json()
       console.log(data)
       console.log(data.data.token)
+      localStorage.setItem('token', data.data.token)
       handleSession(data.data.token)
       alert('Login Success')
     }
@@ -147,11 +151,23 @@ const handleSession = async (token: any) => {
     if (res.ok) {
       const data = await res.json()
       console.log(data)
-      alert(`Hello ${data.data.name}`)
+      // alert(`Hello ${data.data.name}`)
       emit('passTokenToParent', token)
     }
   } catch (err) {
-    console.log(err)
+    console.log(`an error happened ${err}`)
   }
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  alert('Logout Success')
+}
+
+const storedToken = localStorage.getItem('token')
+if (storedToken) {
+  handleSession(storedToken)
+} else {
+  alert('Please Login')
 }
 </script>
